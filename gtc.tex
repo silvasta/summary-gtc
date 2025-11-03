@@ -15,29 +15,32 @@
 %--------------\--------------------------------------------------
 \begin{document}
 
-\iftoggle{do-multicol}{ \begin{multicols*}{\numcolumns}}{}
-		%-----------------------------------------------------------------
-		% %%% Debug
-		% Column width is: \the\columnwidth\\
-		% Preview width is: \the\previewwidth
-		%-----------------------------------------------------------------
-		\input{title/title-blue-grey.tex}
-		%-----------------------------------------------------------------
-		\iftoggle{use-small-font}{\footnotesize}{}
-		%-----------------------------------------------------------------
-		\tableofcontents
-		%-----------------------------------------------------------------
-		\input{topics/static-games.tex}
-		\input{topics/zero-sum-games.tex}
-		\input{topics/auctions.tex}
-		\input{topics/potential-games.tex}
-		\input{topics/convex-games.tex}
-		\input{topics/stackelberg-games.tex}
-		\input{topics/repeated-games.tex}
-		\input{topics/multistage-games.tex}
-		\input{topics/linear-quadratic-games.tex}
-		\input{topics/stochastic-games.tex}
-		%-----------------------------------------------------------------
-		\iftoggle{do-multicol}{\end{multicols*}}{}
+\iftoggle{do-multicol}{
+\begin{multicols*}{\numcolumns}}{}
+  %-----------------------------------------------------------------
+  % %%% Debug
+  % Column width is: \the\columnwidth\\
+  % Preview width is: \the\previewwidth
+  %-----------------------------------------------------------------
+  \input{title/title-blue-grey.tex}
+  %-----------------------------------------------------------------
+  \iftoggle{use-small-font}{\footnotesize}{}
+  %-----------------------------------------------------------------
+  \tableofcontents
+  %-----------------------------------------------------------------
+  \input{topics/static-games.tex}
+  \input{topics/zero-sum-games.tex}
+  \input{topics/auctions.tex}
+  \input{topics/potential-games.tex}
+  \input{topics/convex-games.tex}
+  \input{topics/stackelberg-games.tex}
+  \input{topics/repeated-games.tex}
+  \input{topics/multistage-games.tex}
+  \input{topics/linear-quadratic-games.tex}
+  \input{topics/stochastic-games.tex}
+  %-----------------------------------------------------------------
+  \iftoggle{do-multicol}{
+\end{multicols*}}{}
 
 \end{document}
+

@@ -1,2 +1,200 @@
 \section{Auctions}
 
+- $N$ Players: bidders
+
+- Action: bid $x_i ≥ 0$
+
+\textbf{Outcome}
+
+- $w(x)$ the winner of the auction
+
+- $p(x)$ the price that the winner has to pay
+
+- $t_i$ the true value of the item for agent $i$
+
+The outcome (cost) for agent $i$ is:
+\[J_i =
+  \begin{cases}
+    p(x) − t_i & \text{if} i = w(x)\\
+    0& \text{otherwise}
+  \end{cases}
+\]
+
+\subsection{First-price auctions}
+
+In first-price auctions,
+the best-response bid depends
+on the bids of the other agents
+and your own true value.
+
+- Underbidding $x_i< t_i$
+
+- Truthful bidding $x_i= t_i$
+
+- Overbidding $x_i> t_i$
+
+\begin{proposition}[first-price auctions].\newline
+  \begin{itemize}
+    \item
+      any \textbf{overbidding} strategy is dominated by
+      \textbf{truthful bidding}
+    \item
+      \textbf{truthful bidding} is not a dominant strategy
+  \end{itemize}
+\end{proposition}
+
+\subsection{The problem of private information}
+
+Until now, we always assumed that the cost functions
+of the agents is known to the other agents.
+Auctions are an application of game theory
+in which this is not true, and we encode
+all the \textbf{private information} in the true value $t_i$.
+
+Lack of information leads to inefficiency!
+
+\subsection{Second-price auctions}
+
+\textbf{Winner selection}
+$w(x) = \argmax_i x_i$
+
+(the bidder with the highest bid wins)
+
+\textbf{Payment rule}
+$p(x) = \max_{i \neq w(x)} x_i$
+
+(the winner pays the second-largest bid)
+
+\subsubsection{Dominant Strategy}
+
+In second-price auctions,
+a Nash equilibrium exists and
+\textbf{ can be computed by each agent
+based on their own private information.}
+
+\textbf{Truthful bidding}
+is a weakly dominant strategy
+in a second-price auction
+
+Intuition:
+your bid determines whether you win,
+not how much you pay.
+
+% AI: explain:
+- Incentive compatibility
+
+\subsubsection{Properties of second-price auction}
+
+% AI: explain:
+Social efficiency
+
+Does the auctioneer achieve the highest return?
+
+No (cost of eliciting truthful bidding...)
+
+\textbf{Incentive compatibility} and \textbf{social efficiency}
+often go together
+(the true value needs to be disclosed
+in order to be used for efficient allocation).
+
+\section{Generalized auctions}
+
+\subsection{Bids}
+Each \textbf{bid} is represented by a pair
+$x_j = (b_j, m_j)$
+
+- $b_j$ is the bidded amount
+
+- $m_j$ describes the object of the bid
+
+(Can be extended to allow multiple bids)
+
+\textbf{Fungible goods}
+$m_j\in\mathbb{R}_{>0}$
+parts of a total quantity $M$
+
+\textbf{Non-fungible goods}
+$m_j\in 2^\mathcal{M}$
+with finite set of items $\mathcal{M}$
+
+\subsection{Choice function}
+
+Choice function $w$ maps bids $x$ into
+$N$-dimensional binary vector
+\[w_j(x) =
+  \begin{cases}
+    1 & \text{if bid }j\text{ is accepted}\\
+    0& \text{otherwise}
+  \end{cases}
+\]
+
+- Choice constraints
+
+\subsection{Payment function}
+
+Payment function $p$ maps bids $x$ into
+$N$-dimensional vector where $p_j(x)$
+is the payment requested from the player
+that placed the bid $j$
+
+\section{VCG auctions}
+
+% AI: function definition
+- VCG choice function
+
+% AI: function definition
+- VCG payment function
+
+In order to compute each payment $p_j$,
+we need to evaluate the choice function twice:
+with and without the bid $j$
+
+\subsection{Social utility}
+
+The social utility is the aggregate utility
+of all players and the auctioneer
+$$
+U(t,w) = \sum_i t_i w_i
+$$
+
+The social utility
+- depends on the true value of the goods
+according to the player that receives it
+
+- does not depend on the entity of the payments
+
+\textbf{If players bid truthfully} $b_j = t_j$
+then VCG choice function achieves
+maximal social utility $U^\star$
+
+% AI: explain
+Interpretation of the VCG payment if agents bid truthfully:
+
+\subsubsection{Non-negative utility}
+
+% AI: proof
+When an agent bids truthfully, his utility is non-negative.
+
+\subsection{Dominant bidding strategy}
+
+% AI: proof
+Truthful bidding is a weakly dominant strategy in a VCG auction.
+
+\section{Open problem of auction design}
+
+We saw how to design an auction which guarantees
+
+- incentive compatibility / truthful bidding
+
+- optimal social efficiency
+
+- non-negative payments
+
+Unfortunately, it comes with drawbacks. For example
+
+- it yields low returns
+
+- it can be manipulated by colluding agents
+
+- it is computationally challenging to solve.
+
