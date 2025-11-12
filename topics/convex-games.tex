@@ -1,2 +1,263 @@
 \section{Convex games}
 
+\subsection{Games with infinite actions}
+
+Examples:
+\begin{itemize}[-]
+  \item
+    money (e.g., auctions)
+  \item
+    physical control inputs (force, velocity, ...)
+  \item
+    waiting time (e.g., Start-Stop)
+  \item
+    coverage path of a surveillance camera
+\end{itemize}
+
+\subsubsection{Problems with infinite actions}
+
+\textbf{Theory}
+Most of the properties and results that we saw don’t hold anymore!
+
+\begin{itemize}[-]
+  \item
+    every time there is an argmin or argmax
+  \item
+    Nash Theorem
+\end{itemize}
+
+\textbf{Algorithms}
+The few algorithms that we have seen
+are also not suited for infinite actions
+
+\begin{itemize}[-]
+  \item
+    algorithms \textit{by inspection}
+  \item
+    linear programming
+\end{itemize}
+
+\subsubsection{Example: Cournot competition}
+
+\begin{sstTitleBox}{Problem Setup - Cournot competition}
+  \begin{sstOnlyFrame}
+    Consider two producers competing in a market.
+
+    Each player (producer) $i = 1, 2$ decides on the
+    \textbf{quantity} to produce denoted by $x_i \ge 0$,
+    and has a production marginal cost of $c > 0$.
+
+    The market price $p :  \mathbb{R}\times\mathbb{R}\rightarrow\mathbb{R}$
+    is a linearly decreasing function of the
+    total production $x_1 + x_2$
+  \end{sstOnlyFrame}
+  \begin{sstOnlyFrame}
+    \[p(x_1, x_2) = a − b(x_1 + x_2)\]
+  \end{sstOnlyFrame}
+\end{sstTitleBox}
+
+% TODO: Example: Cournot competition
+\begin{enumerate}
+  \item
+    Write each producer’s losses as a function of the quantities produced.
+  \item
+    Derive the Nash equilibrium.
+  \item
+    What is the Nash equilibrium if producers’ decisions are
+    restricted to $[0, k]$?
+\end{enumerate}
+
+\subsubsection{Example: Betrand competition}
+
+\begin{sstTitleBox}{Problem Setup - Betrand competition}
+  \begin{sstOnlyFrame}
+    Consider two producers competing in a market.
+
+    Each producer decides on the price $x_i \ge 0$ of their product,
+    and has a production marginal cost of $c > 0$.
+  \end{sstOnlyFrame}
+  \begin{sstOnlyFrame}
+    The total demand is 1 unit and the consumers choose to buy
+    from the producer with the lowest price
+    (if both firms declare the same price, then half of the demand
+    chooses firm 1 and the other half chooses firm 2).
+  \end{sstOnlyFrame}
+\end{sstTitleBox}
+
+% TODO: Example: Betrand competition
+\begin{enumerate}
+  \item
+    Write each producer’s losses as a function of the price they charge.
+  \item
+    Derive the Nash equilibrium.
+  \item
+    What is the Nash equilibrium if each producer has the capacity
+    to serve maximum 2/3 of the unit demand?
+\end{enumerate}
+
+\subsubsection{Definitions and background}
+
+% TODO: definitions convexity
+Convexity
+
+- Convex set
+- Convex function
+
+Differentiable functions
+
+- Convex function
+- Characterization: Hessian
+
+\subsection{Convex games}
+
+N-player game with continuous action spaces
+\begin{itemize}[-]
+  \item
+    $N$ player game
+  \item
+    Player $i$’s action $x_i \in K_i \subset \mathbb{R}^{n}$
+  \item
+    $K_i$ is non-empty, closed and convex
+  \item
+    def: $K = K_1 \times K_2 \times \dots \times K_N ⊂ \mathbb{R}^{nN}$
+  \item
+    Player $i$’s outcome $J_i: K \to \mathbb{R}$
+  \item
+    Compact notation: $J_i (x_i, x_{−i})$
+\end{itemize}
+
+\begin{definition}[Nash Equilibrium - Convex Games]
+  mostly the same as usual
+  % TODO: NE convex games
+\end{definition}
+
+\begin{theorem}[Existance of Pure NE - Convex Games]
+  Consider an $N$-player game with continuous action spaces $K_i$.
+  Suppose
+  \begin{itemize}[-]
+    \item
+      action spaces $K_i \subset \mathbb{R}^{n}$
+      are \textbf{compact and convex}
+    \item
+      $J_i$ are \textbf{continuous} in $x \in K$
+    \item
+      $J_i$ are \textbf{convex} in $x_i$ for fixed $x_{−i}$ .
+  \end{itemize}
+  Then a pure Nash equilibrium $x^\star$ exists.
+\end{theorem}
+
+Games that satisfy those conditions are called \textbf{convex games}.
+
+\begin{theorem}[Maximum theorem]
+  % NOTE: maximum theorem, upper hemi-continuity
+\end{theorem}
+
+Upper hemi-continuity
+
+% TODO: apply convex game theorem to cournot, bertrand
+Cournot and Bertrand models
+
+\subsection{Variational inequalities}
+
+\begin{definition}[Variational inequalitiy]
+  % TODO: definition Variational inequality
+\end{definition}
+
+VI and convex optimization
+
+\begin{definition}[First-order optimaliy conditions]
+  % TODO: VI, SOL(KF) to optimization
+\end{definition}
+
+\subsubsection{VI and Nash Equilibria}
+
+Characterization of Nash Equilibria of convex games
+
+\begin{definition}[Nash Equilibria and Variational Inequality]
+  % TODO: VI, SOL(KF) NE
+\end{definition}
+
+Two important advantages coming from the connection between
+\textbf{variational inequalities} and \textbf{Nash equilibria}.
+\begin{itemize}[-]
+  \item
+    Borrow \textbf{theoretical results} from VI (e.g. uniqueness)
+  \item
+    Borrow \textbf{numerical methods} to solve VI / find NE.
+\end{itemize}
+
+Monotone maps
+
+\begin{definition}[Monotonicity]
+  % TODO: monotonicity
+\end{definition}
+
+How to check monotonicity of a map $F$?
+% TODO: How to check monotonicity of a map $F$?
+
+\subsubsection{Uniqueness of Nash Equilibria}
+
+\begin{definition}[SOL$(K,F)$ is a singleton]
+  % TODO: SOL(K,F) singleton
+\end{definition}
+
+\begin{corollary}
+
+\end{corollary}
+
+% TODO: example L5.21/26
+
+\subsection{Computing the Nash Equilibrium of a convex game}
+
+% TODO: example L5.22/28
+
+Learning/computing the Nash Equilibrium
+
+% TODO: learning NE
+%
+\begin{definition}[Best-response iteration]
+\end{definition}
+
+Iterative NE-seeking algorithm
+
+\begin{definition}[Iterative update]
+\end{definition}
+
+\subsubsection{Projected game map}
+
+\begin{definition}[Conjecture]
+\end{definition}
+
+Interpretation
+
+Analysis
+
+\begin{definition}[Assumptions]
+\end{definition}
+
+\subsubsection{Analysis of convergence}
+
+Equilibrium
+
+\begin{proposition}
+\end{proposition}
+
+Contractive maps
+
+\begin{theorem}[Banach Fixed Point]
+\end{theorem}
+
+Contractiveness of the projected-game-map iteration
+
+Projection is non-expansive
+
+\begin{theorem}[Projection non-expansive]
+\end{theorem}
+
+Convergence result
+
+\begin{theorem}[Convergence of projection]
+\end{theorem}
+
+Example TCP congestion
+

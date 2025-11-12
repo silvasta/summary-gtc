@@ -230,7 +230,7 @@ arrows.meta }
   left=0pt,
   right=0pt,
   top=2pt,
-  title=\center\textbf{\large #2},
+  title=\center\textbf{#2},
   breakable
 }
 % for boxes with fail break...

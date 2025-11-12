@@ -97,9 +97,9 @@ often go together
 (the true value needs to be disclosed
 in order to be used for efficient allocation).
 
-\section{Generalized auctions}
+\subsection{Generalized auctions}
 
-\subsection{Bids}
+\subsubsection{Bids}
 Each \textbf{bid} is represented by a pair
 $x_j = (b_j, m_j)$
 
@@ -117,7 +117,7 @@ parts of a total quantity $M$
 $m_j\in 2^\mathcal{M}$
 with finite set of items $\mathcal{M}$
 
-\subsection{Choice function}
+\subsubsection{Choice function}
 
 Choice function $w$ maps bids $x$ into
 $N$-dimensional binary vector
@@ -130,14 +130,14 @@ $N$-dimensional binary vector
 
 - Choice constraints
 
-\subsection{Payment function}
+\subsubsection{Payment function}
 
 Payment function $p$ maps bids $x$ into
 $N$-dimensional vector where $p_j(x)$
 is the payment requested from the player
 that placed the bid $j$
 
-\section{VCG auctions}
+\subsection{VCG auctions}
 
 % AI: function definition
 - VCG choice function
@@ -149,7 +149,7 @@ In order to compute each payment $p_j$,
 we need to evaluate the choice function twice:
 with and without the bid $j$
 
-\subsection{Social utility}
+\subsubsection{Social utility}
 
 The social utility is the aggregate utility
 of all players and the auctioneer
@@ -175,12 +175,12 @@ Interpretation of the VCG payment if agents bid truthfully:
 % AI: proof
 When an agent bids truthfully, his utility is non-negative.
 
-\subsection{Dominant bidding strategy}
+\subsubsection{Dominant bidding strategy}
 
 % AI: proof
 Truthful bidding is a weakly dominant strategy in a VCG auction.
 
-\section{Open problem of auction design}
+\subsection{Open problem of auction design}
 
 We saw how to design an auction which guarantees
 

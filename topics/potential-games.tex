@@ -1,2 +1,200 @@
 \section{Potential games}
 
+\subsection{N-player games}
+
+$N$-player non-zero-sum games
+
+- Player $i$ can choose one among $m_i$ pure actions
+\[
+  \Gamma_i = \{ \gamma_i^{(1)}, \gamma_i^{(2)}, ... \gamma_i^{(m_i)} \}
+\]
+- The outcome of the game for Player $i$ is given by
+\[
+  J_i =( \gamma_1, \gamma_2, ... \gamma_N
+  ) =
+  J_i( \gamma_i, \gamma_{-i})
+\]
+
+\begin{definition}[Pure Nash equilibrium in $N$-player games]
+  A pure strategy profile
+  $\gamma^\star = \{ \gamma_i^\star, \gamma_2^\star, ... \gamma_N^\star \}$
+  is a pure Nash equilibrium
+  if for every player $i$
+  \[
+    J_i( \gamma_i^\star,\gamma_{-i}^\star)
+    \le
+    J_i( \gamma_i',\gamma_{-i}^\star)
+    \quad \gamma_i' \in \Gamma_i
+  \]
+\end{definition}
+
+- Randomized play \rightarrow  mixed strategies, mixed Nash equilibria
+
+- Multiple Nash equilibria are possible (non interchangeable, different payoffs)
+
+\begin{definition}[Pure Best Response in $N$-player games]
+  The pure best response of player $i$ is the set
+  $R_i(\gamma_{−i}) \subseteq \Gamma_i$ such that
+  $\gamma_i \in R_i(\gamma_{−i })$ if and only if
+  \[
+    J_i( \gamma_i,\gamma_{-i})
+    \le
+    J_i( \gamma_i',\gamma_{-i})
+    \quad \forall \gamma_i' \in \Gamma_i
+  \]
+  Equivalent:
+  $R_i(\gamma_{-i}):=
+  \argmin_{\gamma_i \in \Gamma_i} J_i( \gamma_i,\gamma_{-i})$
+\end{definition}
+
+- $R_i(\gamma_{-i})$ is a set, and it is not necessarily a singleton
+
+- $R_i(\gamma_{-i})$ is never empty.
+
+- $R_i(\gamma_{-i})$ is a function of the strategies of other players.
+
+\begin{proposition}
+  A pure strategy profile
+  $\gamma^\star = \{ \gamma_i^\star, \gamma_2^\star, ... \gamma_N^\star \}$
+  is a pure Nash equilibrium if and only if
+  $\gamma_i^\star \in R_i(\gamma_{-i}^\star)$
+  for every player $i$.
+\end{proposition}
+
+\subsubsection{Best-response dynamics}
+
+Consider an initial pure strategy profile
+$\gamma^0 = \{ \gamma_1^0, \gamma_2^0, ... \gamma_N^0 \}$
+
+Step $k = 0, ... $:
+
+1 -
+If $\gamma^k$ is a pure Nash equilibrium → stop
+
+2 -
+Else there exists a player $i$ for which
+$\gamma_i^k \notin R(\gamma_{−i})$
+
+3 -
+Update:$\gamma^{k+1} :=
+(R(\gamma_{−i}), \gamma_{−i}).$
+
+4 -
+$k = k + 1$, goto step 1.
+
+% AI: answer following questions:
+% - Does this dynamics converge in a finite number of iterations?
+% - To which joint strategy?
+
+Clearly, it does not converge if a pure Nash equilibrium does not exist.
+
+Conjecture: It always converges to a pure Nash equilibrium, if that exists.
+
+In this summary:
+
+A class of N-player non-zero sum games for which
+
+- a pure Nash equilibrium is guaranteed to exist
+
+- best-response dynamics converge
+
+- pure Nash equilibria are easy to find
+
+\subsection{Potential games}
+
+\begin{definition}[Potential function]
+  A function $P:
+  \gamma_1 \times \gamma_2 \times \dots \times \gamma_N \to \mathbb{R}$
+  is a \textbf{potential function}
+  if for every player $i$ and every $\gamma_{-i}$
+  \[
+    J_i(\gamma_i',\gamma_{-i})
+    -
+    J_i(\gamma_i'',\gamma_{-i})
+    =
+    P(\gamma_i',\gamma_{-i})
+    -
+    P(\gamma_i'',\gamma_{-i})
+  \]
+  for every $\gamma_i',\gamma_i''\in \Gamma_i$
+\end{definition}
+
+A game is a \textbf{potential game} if it admits a potential function.
+
+Note:
+
+- The potential function $P$ is the same for all players
+
+- The potential function assigns a value to each joint strategy profile
+
+- When player $i$ chooses a best response, the potential decreases.
+
+\begin{proposition}
+  Finite games with a potential function have a pure Nash equilibrium.
+  Furthermore, best response dynamics converge.
+\end{proposition}
+
+- Provides a \textbf{computation method}
+and an intuition for \textbf{repeated games}
+
+- These iterations converge to a Nash equilbrium
+that depends on the \textbf{initial conditions}
+
+- It does not converge only to admissible Nash equilibria
+
+\begin{proposition}
+  In potential games, Nash equilibria correspond to
+  \textbf{directionally maxima} (or minima, if players are minimizers)
+  of the potential.
+\end{proposition}
+
+\subsubsection{Paths}
+
+- A path in $\Gamma$ is a sequence ...
+% TODO: Definition path
+
+- closed path
+
+- simple path
+
+% TODO: proposition path imporvement
+
+\subsection{Congestion games}
+
+% TODO: congestion definitions
+
+\begin{theorem}[Potential function for Congestion games]
+  The following is a potential function for congestion games.
+  \[
+    P(\gamma)=
+    \sum_{j=1}^M
+    \sum_{k=1}^{\ell_j(\gamma)}
+    f_j(k)
+  \]
+  Consequently, congestion games admit a pure Nash equilibrium.
+\end{theorem}
+
+% HACK: check proof L4.18/23
+
+\subsection{Social welfare}
+
+\begin{definition}[Welfare function]
+  In a $N$-person game,
+  let $\gamma_i \in \Gamma_i$ be the strategy played by agent $i$.
+
+  Let $\gamma \in \Gamma :=
+  \Gamma_1 \times \Gamma_2 \times \dots \times \Gamma_N$
+  be the system-wide strategy.
+
+  A \textbf{welfare cost} $W : \Gamma \to \mathbb{R}$
+  is a measure of efficiency of each strategy for the
+  social cost of the population of agents.
+\end{definition}
+
+Let the \textbf{individual cost} be $J_i(\gamma)$
+that player $i$ wants to minimize.
+
+\subsubsection{Price of Anarchy}
+
+% TODO: definition anarchy
+
