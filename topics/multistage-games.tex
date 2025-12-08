@@ -1,2 +1,124 @@
 \section{Multistage games}
 
+- Example: Tic-tac-toe
+
+“Advanced” games
+
+Features:
+\begin{itemize}
+  \item multiple stages
+  \item different order of choice
+  \item variable number of stages
+  \item partial information (dependent on actions)
+  \item memory-constrained players
+\end{itemize}
+
+The (repeated) \textbf{matrix form} is not the most effective representation.
+
+\subsection{Tree representation
+}
+\begin{itemize}
+  \item The game evolves from the root to the leaves
+    \begin{itemize}
+      \item Let us consider zero-sum games for now
+    \end{itemize}
+  \item Each level of the tree corresponds to a player’s turn
+  \item Links correspond to actions
+  \item Each leaf is associated to a final outcome
+  \item Nodes of each player are divided into information sets
+    \begin{itemize}
+      \item each node in the same information set has the same branches
+    \end{itemize}
+\end{itemize}
+
+Actions and strategies
+
+% HACK: information  set
+% TODO: action and strategies multistage tree
+
+- Simultaneous play
+
+- Sequential play
+
+From extensive form to matrix form
+
+% TODO:
+
+Games in extensive form can be reformulated in matrix form!
+
+Credible threats
+
+% TODO:
+
+\subsubsection{Subgame perfect equilibria}
+
+A strategy is a subgame perfect equilibrium
+if it represents a NE of every subgame of the original game.
+
+- The notion of subgame is not always well defined.
+
+- One special case: games with perfect information.
+
+Example: Chess
+
+\subsubsection{Backward induction}
+
+Features
+
+- More efficient than exploring the matrix form
+
+- Returns a strategy that is a subgame perfect equilibrium
+
+Can we always apply backward induction?
+
+We can for games with perfect information.
+
+Feedback games
+
+A multi-stage game in extensive form is a feedback game
+if each “Player 1” node is the root of a separated sub-game.
+
+Backward induction in feedback games
+
+Starting from the leaves, identify subgames for which we can determine the pure
+NE strategy...
+
+... either because players have full information...
+
+... or because they play a simultaneous game with pure NE.
+
+\begin{itemize}
+  \item Solve the game from the leaves towards the root
+  \item Move up stage-by-stage (not level-by-level)
+  \item Record the pure equilibrium strategy for each information set
+  \item If the algorithm converges to the root, then we have a pure NE.
+  \item No guarantees of convergence, even when a pure NE exists.
+\end{itemize}
+
+Towards randomized strategies
+
+% TODO: image, aussagen, L8.33/59
+
+\subsection{Mixed strategies}
+
+% TODO: mixed
+
+Nash’s Existence theorem
+% HACK: Nash’s Existence theorem
+
+\subsection{Behavioral strategies}
+
+% TODO: pure, mixed Behavioral
+
+Mixed vs. behavioral
+
+Kuhn’s theorem
+
+\subsection{Single stage game}
+
+How to search for a Nash equilibrium behavioral strategy?
+
+Step 1-3
+
+Backward induction
+

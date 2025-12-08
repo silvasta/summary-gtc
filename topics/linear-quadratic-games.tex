@@ -28,7 +28,7 @@ Zeichnung Baum
         draw=gray,
       },
       level/.style={ % Spacing between levels
-        level distance=2cm, % Vertical distance between levels
+        level distance=1.5cm, % Vertical distance between levels
         % (adjust as needed)
         sibling distance=2cm, % Horizontal distance between siblings
         % (adjust for wider/narrower tree)
@@ -44,7 +44,7 @@ Zeichnung Baum
         draw=green,
         fill=green!20,
         rectangle,
-        minimum width=1.5cm,
+        minimum width=1cm,
         minimum height=0.8cm,
         font=\small\bfseries,
       },
@@ -54,6 +54,7 @@ Zeichnung Baum
         ellipse, % Shape for leaves
         minimum width=1cm,
         minimum height=0.6cm,
+        % sibling distance=1cm,
         font=\small,
       },
       every node/.style={ % Default for all nodes
@@ -62,27 +63,26 @@ Zeichnung Baum
     ]
 
     % The tree structure starts here
-    \node[root node] (root) {Root\\(Level 0)}
+    \node[root node] (root) {Root}
+    % \\(Level 0)}
     % First level: 3 children (adjust sibling distance above if needed)
-    child { node[level-1] (n1) {Node 1.1\\(Level 1)}
+    child { node[level-1] (n1) {up}
       % Second level under Node 1.1: 3 children (leaves)
-      child { node[level-2] {Leaf 1.1.1} }
-      child { node[level-2] {Leaf 1.1.2} }
-      child { node[level-2] {Leaf 1.1.3} }
+      child { node[level-2] {middle} }
+      child { node[level-2] {down} }
     }
-    child { node[level-1] (n2) {Node 1.2\\(Level 1)}
+    child { node[level-1] (n2) {middle}
       % Second level under Node 1.2: Example with ONLY 2 children
       % (comment out one 'child' to reduce)
-      child { node[level-2] {Leaf 1.2.1} }
-      child { node[level-2] {Leaf 1.2.2} }
-      % child { node[level-2] {Leaf 1.2.3} } % <-- Comment this line
+      child { node[level-2] {up} }
+      child { node[level-2] {middle} }
+      child { node[level-2] {down} }
       % to make it 2 children
     }
-    child { node[level-1] (n3) {Node 1.3\\(Level 1)}
+    child { node[level-1] (n3) {down}
       % Second level under Node 1.3: 3 children (full)
-      child { node[level-2] {Leaf 1.3.1} }
-      child { node[level-2] {Leaf 1.3.2} }
-      child { node[level-2] {Leaf 1.3.3} }
+      child { node[level-2] {up} }
+      child { node[level-2] {middle} }
     };
 
     % Optional: Add backgrounds or decorations (using backgrounds

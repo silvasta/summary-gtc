@@ -1,2 +1,180 @@
 \section{Repeated games}
 
+\subsection{Tragedy of the commons}
+
+$N$ players (companies, countries) have access to a single resource
+
+Players can
+
+- \textbf{cooperate} and limit their consumption
+
+- \textbf{exploit} the resource, leading to overuse and depletion
+
+2 Players (maximizers)
+\[
+  \begin{matrix}
+    \begin{matrix}
+    \end{matrix}&
+    \begin{matrix}
+      \text{cooperate}& \text{exploit}
+    \end{matrix}\\
+    \begin{matrix}
+      \\ \text{cooperate} \\ \text{exploit}
+    \end{matrix}&
+    \begin{bmatrix}
+      (a,a)&(0,b)\\
+      (b,0)&(c,c)
+    \end{bmatrix}
+  \end{matrix}
+\]
+
+N Players
+\[
+  P_i =
+  \begin{cases}
+    a\frac{N_C -1}{N-1} \text{(cooperate)}
+    \\
+    (b-c)\frac{N_C}{N-1}+c \text{(exploit)}
+  \end{cases}
+\]
+
+Best response:
+
+Exploit
+
+- is a dominant strategy, and therefore the pure strategy
+
+- is the only Nash Equilibrium
+
+\subsubsection{Application domains}
+
+\begin{itemize}
+  \item Human population growth leading to overpopulation
+  \item Atmospheric pollution (ozone depletion, global warming, ...)
+  \item Water use and overirrigation
+  \item Logging of old forests
+  \item Fossil fuel use and consequential global warming
+  \item Ocean overfishing
+  \item Antibiotic use and antibiotic resistance
+  \item Vaccinations and herd immunity
+  \item Wi-Fi channel use and transmission power
+  \item Hoarding of items such as toilet paper during a perceived threat
+\end{itemize}
+
+\subsection{Tragedy of the commons: multi-stage version}
+
+- \textbf{Supergame}
+$G^{(T)}$, same game $G$ repeatet $T$ times.
+
+- \textbf{Actions}
+$u^t\in$ \{cooperate,exploit\}$^N$ of $N$ players at stage $t$
+
+- \textbf{History of the game}
+$\mathcal{H}^t$ actions of $N$ players before stage $t$
+
+$\mathcal{H}^1 = ()$ empty vector,
+$\mathcal{H}^T = (u^1,\dots,u^{T-1})$
+
+\textbf{Assumption:}
+All agents have perfect recall of the past.
+
+\subsection{Strategies in a repeated game}
+
+- \textbf{Pure strategy}
+$\gamma_i^{(T)}$ of Player $i$ is \textbf{sequence of functions}
+\[
+  \gamma_i^{(T)}:
+  \mathcal{H}^t \to \mathcal{U}
+  :=\{\text{cooperate},\text{exploit}\}
+\]
+
+- \textbf{Payoff} of repeated game:
+\[
+  P_i^{(T)}(
+    \gamma_i^{(T)},\dots, \gamma_N^{(T)}
+  )=
+  \sum_{t=1}^T P_i(u^t)
+\]
+- $P_i$ payoff function of the game played at every stage
+
+- $u^t = \gamma^t(\mathcal{H}^t)$
+
+NE
+% TODO: Nash equilibrium of the repeated game
+
+Player $i$ cannot improve by unilaterally changing his strategy,
+while other agents maintain the same \textbf{strategy} (not \textbf{actions}!)
+
+% NOTE: look at example L7.6/20
+
+\begin{sstTitleBox} {
+    Nash equilibria of repeated games
+  }
+  \begin{theorem}
+    Consider a game G, and its repetition T times G(T ) .
+
+    - If
+
+    - If
+  \end{theorem}
+\end{sstTitleBox}
+
+\subsection{Infinitely repeated games}
+
+Infinite repetition $G^(\infty)$ of the same game $G$.
+
+\begin{sstTitleBox} {
+    Discounted payoff
+  }
+  \[
+    P_i^{(\infty)}( \gamma_i^{(\infty)})=
+    (1-\delta)\sum_{t=1}^\infty \delta^{t-1}P_i(u^t)
+  \]
+  with \textbf{discoun factor} $0<\delta<1$
+\end{sstTitleBox}
+
+- \textbf{evil} strategy $\gamma_i^t=$ exploit
+
+Proposition
+
+The strategy evil $\forall i$ is a Nash Equilibrium.
+
+- \textbf{trigger} strategy
+\[
+  \gamma_i^t =
+  \begin{cases}
+    \text{cooperate}& \text{if} u_j^\tau = \text{cooperate}
+    \forall J \neq i, \forall \tau<t
+    \\
+    \text{exploit}& \text{else}
+  \end{cases}
+\]
+
+Proposition
+
+NE if...
+% NOTE: example with numbers
+
+\textbf{Positive message:}
+Cooperation can be achieved via repetition!
+
+\begin{sstTitleBox} {
+    Cooperation via repetition
+  }
+  Consider a static game $G$ and its infinite repetition $G^({\infty})$
+
+  Consider a strategy $\hat{\gamma}$ for $G$
+  that achieves individual payoffs
+  \[
+    \hat{P_i}= P_i(\hat{\gamma}) >
+    \bar{P_i}:=
+    \min_{\gamma_{-i}} \max_{\gamma_{i}} P_i( \gamma_{-i}, \gamma_{i})
+  \]
+  Then there exists $\delta_0\in(0,1)$,
+  such that for all $\delta\in(\delta_0,1)$
+  the game $G^({\infty})$ has a Nash Equilibrium $\gamma^{(\infty)}$
+  with $P_i^{(\infty)} = \hat{P_i}$
+\end{sstTitleBox}
+
+Infinitely repeated games tend to have \textbf{many Nash equilibria}
+
