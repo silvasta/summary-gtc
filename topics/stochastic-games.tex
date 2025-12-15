@@ -1,1 +1,231 @@
 \section{Stochastic games}
+
+- Understand shortcoming of randomized feedback games for modelling
+large or infinite number of stages.
+
+- Derive stochastic games as a tractable class of randomized feedback games.
+
+- Construct state transition models for stochastic games.
+
+- Contrast solution methods in finite stage vs. infinite stage stochastic games.
+
+- Bonus: Recognize curse of dimensionality in stochastic games with
+large number of players and introduce stochastic population games.
+
+\subsection{Epidemic game}
+
+% \begin{center}
+%   \begin{tikzpicture}[
+%       % Global styling for the tree
+%       tree/.style={ % Style for edges
+%         -Latex, % Arrow style (from arrows.meta)
+%         thick,
+%         draw=gray,
+%       },
+%       level/.style={ % Spacing between levels
+%         level distance=1.5cm, % Vertical distance between levels
+%         % (adjust as needed)
+%         % sibling distance=3cm, % Horizontal distance between siblings
+%         % (adjust for wider/narrower tree)
+%       },
+%       root node/.style={ % Style for root node
+%         draw=blue, % Border color
+%         fill=blue!20, % Fill color
+%         circle, % Shape (circle; change to rectangle, etc.)
+%         minimum size=1cm, % Size
+%         font=\bfseries, % Font
+%       },
+%       level-1/.style={ % Style for first-level nodes
+%         draw=green,
+%         fill=green!20,
+%         rectangle,
+%         minimum width=2cm,
+%         minimum height=0.8cm,
+%         font=\small\bfseries,
+%       },
+%       level-2/.style={ % Style for leaf/second-level nodes
+%         draw=red,
+%         fill=red!20,
+%         ellipse, % Shape for leaves
+%         minimum width=1cm,
+%         sibling distance=1cm, % Horizontal distance between siblings
+%         minimum height=0.6cm,
+%         % sibling distance=1cm,
+%         font=\small,
+%       },
+%       every node/.style={ % Default for all nodes
+%         align=center, % Center text
+%       },
+%     ]
+%
+%     % The tree structure starts here
+%     \node[root node] (root) {Alice}
+%     child { node[level-1] (n1) {H}
+%       child { node[level-2] {H} }
+%       child { node[level-2] {O} }
+%     }
+%     child { node[level-1] (n2) {O}
+%       child { node[level-2] {H} }
+%       child { node[level-2] {O} }
+%     };
+%
+%   \end{tikzpicture}
+% \end{center}
+
+\subsubsection{1 stage}
+
+Consider the case with only 1 stage or day.
+
+- What is the corresponding tree?
+
+- Is it a feedback game?
+
+- What is the Nash equilibrium strategy for Alice and for Eve?
+
+- What is the value of the game for Alice and for Eve?
+
+\subsubsection{2 stages}
+
+Consider the case where there are 2 stages or days.
+
+- Draw the corresponding game tree
+
+- Is it a feedback game?
+
+- Solve the game. How many LP did you have to solve?
+
+\subsubsection{Taming the complexity}
+
+- subgames dependent of states \{(NI,I),(I,I)\}
+
+- from $4^{k-i}$ to $2K$
+
+\subsection{State transition model}
+
+- \textbf{Stages} become \textbf{discrete time}
+
+- \textbf{Behavioral strategies}
+(maps from information sets to actions)
+become \textbf{feedback policies}
+(maps from states to inputs)
+
+- \textbf{Kuhn’s theorem holds}:
+NE in behavioral strategies guaranteed to exist
+
+- Can compute (subgame-perfect) behavioral NE
+using \textbf{backward induction}
+
+\subsection{Probabilistic state transitions}
+
+- from certainty $1$ to probability $\alpha$
+
+\subsection{Stochastic game}
+
+\begin{sstTitleBox}
+  {Basic elements}
+  \begin{sstOnlyFrame}
+    \begin{itemize}
+      \item Stages $k = 0,\dots, K−1$
+      \item State space
+        $x_k \in \mathcal{X} = \{x^1,\dots, x^\ell\}$,
+        initial state $x_0$
+      \item Action space
+        $u_k \in \mathcal{U} = \{u^1,\dots,u^n\}$,
+        $v_k \in \mathcal{V} = \{v^1,\dots,v^m\}$
+      \item Stage outcome functions
+        $g^{(1)} (x_k , u_k , v_k )$,
+        $g^{(2)} (x_k , u_k , v_k )$
+      \item State transition probabilities
+        $\mathbb{P}(x_{k+1} | x_k , u_k , v_k )$
+    \end{itemize}
+  \end{sstOnlyFrame}
+\end{sstTitleBox}
+
+\subsubsection{Finite stage stochastic game}
+
+- Behavioral strategies
+
+- \textbf{Outcome}
+$\mathbb{E}[\sum g | x_0]$
+
+\subsubsection{Infinite stage stochastic game}
+
+- \textbf{Stationary} Behavioral strategies
+
+- \textbf{Outcome}
+$\mathbb{E}[\sum \delta^k g | x_0]$
+
+\subsubsection{Value function}
+
+- seperable to stage cost + next V
+
+\subsubsection{Solving stochastic game}
+
+- Finite stage stochastic game: Backward induction
+
+- Infinite stage stochastic game: Bellman equation
+
+\subsubsection{Example}
+
+- 2 car at crossing, go wait, Exam Question
+\[
+  \begin{matrix}
+    (100,100)&(0,1)\\
+    (1,0)&(v,v)
+  \end{matrix}
+\]
+- solve by hand with p12gw $y^T G z$
+
+\subsection{Summary: Stochastic games}
+
+\section{Bonus Material}
+
+Unfortunate news: Even ($\ell$) single-stage games might not be enough!
+
+Epidemic game revisited:
+
+With Alice and Eve, we had 4 states,
+adding 1 player results in 8 states.
+
+$2^N$ with $N$ Number of players
+
+\textbf{Stochastic population games}
+
+Assumption 1
+
+There is a large number of players $N\to\infty$
+
+Assumption 2
+
+The state is separable in the players
+
+Assumption 3
+
+Players are anonymous. Their stage outcomes and state transition
+probabilities depend on own state and action, and distribution of
+others’ states and actions
+
+Assumption 4
+
+Players are symmetric, i.e., they have identical stage outcome
+functions and state transition probabilities.
+
+Assumption 5
+
+The stage outcome function and state transition probabilities
+are continuous in the state and action distributions
+
+Theorem
+
+Under Assumptions 1–5, there exists a stationary state and action
+distribution pair $(d^\star,\pi^\star)$ that constitutes a Nash equilibrium
+for the $\delta$-discounted infinite stage stochastic population game.
+
+We have not covered
+
+- Games with partial information / Bayesian games
+
+- Differential games
+
+- ...
+
