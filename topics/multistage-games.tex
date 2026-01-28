@@ -1,124 +1,110 @@
 \section{Multistage games}
 
-- Example: Tic-tac-toe
+Multistage games extend repeated games by allowing variable stages,
+sequential or simultaneous moves, imperfect information, and memory
+constraints.
 
-“Advanced” games
+The extensive form (game tree) is preferred over the
+normal (matrix) form due to efficiency, especially for large games
+like tic-tac-toe (9! pure strategies for Player 1 in simplified form).
 
-Features:
-\begin{itemize}
-  \item multiple stages
-  \item different order of choice
-  \item variable number of stages
-  \item partial information (dependent on actions)
-  \item memory-constrained players
-\end{itemize}
+\subsection{Extensive Form Representation}
 
-The (repeated) \textbf{matrix form} is not the most effective representation.
+\textbf{Game tree}
+Root to leaves,
+nodes are decision points labeled by players,
+edges are actions,
+leaves have payoffs
+(focus on zero-sum for saddle-points)
 
-\subsection{Tree representation
-}
-\begin{itemize}
-  \item The game evolves from the root to the leaves
-    \begin{itemize}
-      \item Let us consider zero-sum games for now
-    \end{itemize}
-  \item Each level of the tree corresponds to a player’s turn
-  \item Links correspond to actions
-  \item Each leaf is associated to a final outcome
-  \item Nodes of each player are divided into information sets
-    \begin{itemize}
-      \item each node in the same information set has the same branches
-    \end{itemize}
-\end{itemize}
+\textbf{Information sets}
+Group indistinguishable nodes (dashed lines)
+each set must have identical action sets.
+Imperfect information arises when sets span multiple nodes.
 
-Actions and strategies
+\textbf{Examples}
+Tic-tac-toe (symmetries create large info sets)
+surprise quiz paradox (teacher-student game with surprise payoffs).
 
-% HACK: information  set
-% TODO: action and strategies multistage tree
+\textbf{Conversion to normal form}
+Enumerate pure strategies to form payoff matrix,
+but size explodes exponentially.
 
-- Simultaneous play
+\subsection{Strategies in Extensive Form}
 
-- Sequential play
+\textbf{Pure strategy}
+Maps each info set to one action.
 
-From extensive form to matrix form
+\textbf{Mixed strategy}
+Probability distribution over pure strategies
+(dim: $\prod |U_i| - 1$, exponential).
+Randomizes ex-ante over full plans.
 
-% TODO:
+\textbf{Behavioral strategy}
+Independent distribution over actions per info set
+(dim: $\sum (|U_i| - 1)$, linear).
+Local randomization during play.
 
-Games in extensive form can be reformulated in matrix form!
+\textbf{Kuhn’s theorem} (feedback games)
+Every mixed strategy has an equivalent behavioral strategy
+inducing the same outcome distribution and payoffs.
 
-Credible threats
+\subsection{Equilibria and Credibility}
 
-% TODO:
+Many Nash equilibria (NE) exist
+but may rely on non-credible threats
+(e.g., nuclear deterrence: "launch if provoked" only credible if automated).
 
-\subsubsection{Subgame perfect equilibria}
+\textbf{Subgame Perfect Equilibrium (SPE)}
+Strategy profile that is NE in every subgame
+(refines NE by ensuring credibility).
 
-A strategy is a subgame perfect equilibrium
-if it represents a NE of every subgame of the original game.
+Zermelo’s theorem (perfect info, finite zero-sum, no chance): One
+player has winning strategy or draw.
 
-- The notion of subgame is not always well defined.
+\subsection{Backward Induction}
 
-- One special case: games with perfect information.
+For perfect info games:
+Start at leaves,
+propagate optimal choices upward,
+yields pure SPE efficiently (vs. matrix enumeration).
 
-Example: Chess
+Applications:
+Chess (theoretical draw/win, unsolved),
+tic-tac-toe (draw with optimal play).
 
-\subsubsection{Backward induction}
+\textbf{Feedback games}
+Each Player 1 info set roots a separate subgame,
+enables recursive decomposition.
 
-Features
+In feedback games with behavioral strategies:
 
-- More efficient than exploring the matrix form
+- At each info set, solve local matrix game for minimax value and
+behavioral NE (via LP if needed).
 
-- Returns a strategy that is a subgame perfect equilibrium
+- Propagate values backward to root; yields SPE in behavioral strategies.
+No convergence guarantee for pure NE, but Nash’s theorem ensures
+mixed/behavioral existence in finite games.
 
-Can we always apply backward induction?
+\subsection{Relevant Examples and Exercises}
 
-We can for games with perfect information.
+\textbf{Surprise test paradox}
+Modeled as non-feedback zero-sum game (K=2 days)
+teacher maximizes surprise, student minimizes.
 
-Feedback games
+NE: Teacher tests day 1 w.p. 1/3, student studies day 1 w.p. 2/3,
+average study days 4/3 >1 (incentivizes more study).
+Backward induction fails due to imperfect info,
+but NE shows surprise possible.
 
-A multi-stage game in extensive form is a feedback game
-if each “Player 1” node is the root of a separated sub-game.
+- \textbf{Tic-tac-toe}: Extensive form has $9 \times 7^8 \times 5^6
+\times 3^4 \times 1^2$ pure strategies for P1; backward induction
+proves optimal draw.
 
-Backward induction in feedback games
-
-Starting from the leaves, identify subgames for which we can determine the pure
-NE strategy...
-
-... either because players have full information...
-
-... or because they play a simultaneous game with pure NE.
-
-\begin{itemize}
-  \item Solve the game from the leaves towards the root
-  \item Move up stage-by-stage (not level-by-level)
-  \item Record the pure equilibrium strategy for each information set
-  \item If the algorithm converges to the root, then we have a pure NE.
-  \item No guarantees of convergence, even when a pure NE exists.
-\end{itemize}
-
-Towards randomized strategies
-
-% TODO: image, aussagen, L8.33/59
-
-\subsection{Mixed strategies}
-
-% TODO: mixed
-
-Nash’s Existence theorem
-% HACK: Nash’s Existence theorem
-
-\subsection{Behavioral strategies}
-
-% TODO: pure, mixed Behavioral
-
-Mixed vs. behavioral
-
-Kuhn’s theorem
-
-\subsection{Single stage game}
-
-How to search for a Nash equilibrium behavioral strategy?
-
-Step 1-3
-
-Backward induction
+\examBox{Exam focus}
+{Distinguish mixed vs. behavioral (equivalence in feedback games);
+  apply backward induction for SPE in zero-sum extensive/feedback
+  games; analyze credibility in non-zero-sum settings; model
+  applications like epidemics or power control as stochastic multistage
+games with state-dependent equilibria. }
 

@@ -1,112 +1,53 @@
 \section{Potential games}
 
-\subsection{N-player games}
+Potential games form a subclass of non-zero-sum games with guaranteed
+pure Nash equilibria (NE) and converging best-response (BR) dynamics,
+crucial for decentralized control and exam problems involving
+equilibrium existence, computation, and efficiency (e.g., Price of
+Anarchy, PoA).
 
-$N$-player non-zero-sum games
+\subsection{N-Player Games and Best-Response Dynamics}
 
-- Player $i$ can choose one among $m_i$ pure actions
+Each player $i$ selects $\gamma_i \in \Gamma_i$
+(finite set) to minimize cost:
 \[
-  \Gamma_i = \{ \gamma_i^{(1)}, \gamma_i^{(2)}, ... \gamma_i^{(m_i)} \}
-\]
-- The outcome of the game for Player $i$ is given by
-\[
-  J_i =( \gamma_1, \gamma_2, ... \gamma_N
-  ) =
-  J_i( \gamma_i, \gamma_{-i})
+  J_i( \gamma_1, \gamma_2, ... \gamma_N) = J_i( \gamma_i, \gamma_{-i})
 \]
 
 \begin{definition}[Pure Nash equilibrium in $N$-player games]
+
   A pure strategy profile
-  $\gamma^\star = \{ \gamma_i^\star, \gamma_2^\star, ... \gamma_N^\star \}$
-  is a pure Nash equilibrium
-  if for every player $i$
+  $\gamma^* = (\gamma_1^*, \dots, \gamma_N^*)$
+  is a pure NE if:
   \[
-    J_i( \gamma_i^\star,\gamma_{-i}^\star)
-    \le
-    J_i( \gamma_i',\gamma_{-i}^\star)
-    \quad \gamma_i' \in \Gamma_i
+    \forall i,\ \forall \gamma_i' \in \Gamma_i: J_i(\gamma_i^*,
+    \gamma_{-i}^*) \leq J_i(\gamma_i', \gamma_{-i}^*)
   \]
 \end{definition}
-
-- Randomized play \rightarrow  mixed strategies, mixed Nash equilibria
-
-- Multiple Nash equilibria are possible (non interchangeable, different payoffs)
 
 \begin{definition}[Pure Best Response in $N$-player games]
-  The pure best response of player $i$ is the set
-  $R_i(\gamma_{−i}) \subseteq \Gamma_i$ such that
-  $\gamma_i \in R_i(\gamma_{−i })$ if and only if
+  The best (non-empty, possibly non-singleton) response set is:
   \[
-    J_i( \gamma_i,\gamma_{-i})
-    \le
-    J_i( \gamma_i',\gamma_{-i})
-    \quad \forall \gamma_i' \in \Gamma_i
+    R_i(\gamma_{-i}) = \arg\min_{\gamma_i \in \Gamma_i} J_i(\gamma_i,
+    \gamma_{-i})
   \]
-  Equivalent:
-  $R_i(\gamma_{-i}):=
-  \argmin_{\gamma_i \in \Gamma_i} J_i( \gamma_i,\gamma_{-i})$
+  $\gamma^*$ is pure NE iff $\gamma_i^* \in R_i(\gamma_{-i}^*)\ \forall i$
 \end{definition}
 
-- $R_i(\gamma_{-i})$ is a set, and it is not necessarily a singleton
+\textbf{BR dynamics}
+Start at $\gamma^0$; iteratively update one player's strategy to a BR,
+reducing some $J_i$. May cycle (e.g., rock-paper-scissors)
+unless structured (e.g., potential games).
 
-- $R_i(\gamma_{-i})$ is never empty.
+\examBox{Exam relevance}{Prove convergence or find cycles in small games.}
 
-- $R_i(\gamma_{-i})$ is a function of the strategies of other players.
+\subsection{Potential Games: Definition and Properties}
 
-\begin{proposition}
-  A pure strategy profile
-  $\gamma^\star = \{ \gamma_i^\star, \gamma_2^\star, ... \gamma_N^\star \}$
-  is a pure Nash equilibrium if and only if
-  $\gamma_i^\star \in R_i(\gamma_{-i}^\star)$
-  for every player $i$.
-\end{proposition}
-
-\subsubsection{Best-response dynamics}
-
-Consider an initial pure strategy profile
-$\gamma^0 = \{ \gamma_1^0, \gamma_2^0, ... \gamma_N^0 \}$
-
-Step $k = 0, ... $:
-
-1 -
-If $\gamma^k$ is a pure Nash equilibrium → stop
-
-2 -
-Else there exists a player $i$ for which
-$\gamma_i^k \notin R(\gamma_{−i})$
-
-3 -
-Update:$\gamma^{k+1} :=
-(R(\gamma_{−i}), \gamma_{−i}).$
-
-4 -
-$k = k + 1$, goto step 1.
-
-% AI: answer following questions:
-% - Does this dynamics converge in a finite number of iterations?
-% - To which joint strategy?
-
-Clearly, it does not converge if a pure Nash equilibrium does not exist.
-
-Conjecture: It always converges to a pure Nash equilibrium, if that exists.
-
-In this summary:
-
-A class of N-player non-zero sum games for which
-
-- a pure Nash equilibrium is guaranteed to exist
-
-- best-response dynamics converge
-
-- pure Nash equilibria are easy to find
-
-\subsection{Potential games}
-
-\begin{definition}[Potential function]
-  A function $P:
-  \gamma_1 \times \gamma_2 \times \dots \times \gamma_N \to \mathbb{R}$
-  is a \textbf{potential function}
-  if for every player $i$ and every $\gamma_{-i}$
+\begin{definition}[Exact Potential Function]
+  A function $P: \Gamma \to \mathbb{R}$
+  is an \textbf{excact potential} if
+  $\forall i$, $\forall \gamma_{-i}$,
+  $\forall \gamma_i', \gamma_i'' \in \Gamma_i$:
   \[
     J_i(\gamma_i',\gamma_{-i})
     -
@@ -116,85 +57,96 @@ A class of N-player non-zero sum games for which
     -
     P(\gamma_i'',\gamma_{-i})
   \]
-  for every $\gamma_i',\gamma_i''\in \Gamma_i$
 \end{definition}
 
 A game is a \textbf{potential game} if it admits a potential function.
 
-Note:
+Key: Unilateral deviation changes match $P$ changes (same for all players).
 
-- The potential function $P$ is the same for all players
-
-- The potential function assigns a value to each joint strategy profile
-
-- When player $i$ chooses a best response, the potential decreases.
-
-\begin{proposition}
-  Finite games with a potential function have a pure Nash equilibrium.
-  Furthermore, best response dynamics converge.
+\begin{proposition}[Existence and Convergence]
+  Finite potential games have $\geq 1$ pure NE. BR dynamics converge
+  finitely to a pure NE (since $P$ strictly decreases on non-NE
+  updates; finite $\Gamma$ prevents infinite descent).
 \end{proposition}
 
-- Provides a \textbf{computation method}
-and an intuition for \textbf{repeated games}
+Pure NE are local minima of $P$ (directional: no unilateral descent).
+Multiple NE possible, initial conditions affect convergence.
+\examBox{Exam tip}
+{Check potential by verifying cost differences or constructing $P$
+(e.g., via summation over paths)}
 
-- These iterations converge to a Nash equilbrium
-that depends on the \textbf{initial conditions}
-
-- It does not converge only to admissible Nash equilibria
+\subsubsection{Path Improvement Characterization}
+A path in $\Gamma$ is a sequence where consecutive profiles differ by
+one player's unilateral deviation. A closed path returns to start;
+simple if no repeats.
 
 \begin{proposition}
-  In potential games, Nash equilibria correspond to
-  \textbf{directionally maxima} (or minima, if players are minimizers)
-  of the potential.
+  A game is potential iff the total improvement $I(\mathcal{P}) =
+  \sum$ (cost changes along path) is zero for every finite simple
+  closed path of length 4 (or all closed paths).
 \end{proposition}
 
-\subsubsection{Paths}
+\examBox{Proof via cycle decomposition}
+{exam-relevant for verifying potential
+in small games (e.g., check 4-cycles)}
 
-- A path in $\Gamma$ is a sequence ...
-% TODO: Definition path
+\subsection{Congestion Games}
 
-- closed path
+Canonical example of potential games, modeling resource sharing
+(e.g., traffic, networks).
 
-- simple path
+\begin{definition}[Congestion Game]
+  Resources $\{1,\dots,M\}$
 
-% TODO: proposition path imporvement
+  $\gamma_i \subseteq \{1,\dots,M\}$ (subset used by $i$)
 
-\subsection{Congestion games}
+  load $\ell_j(\gamma) = |\{i: j \in \gamma_i\}|$
 
-% TODO: congestion definitions
-
-\begin{theorem}[Potential function for Congestion games]
-  The following is a potential function for congestion games.
-  \[
-    P(\gamma)=
-    \sum_{j=1}^M
-    \sum_{k=1}^{\ell_j(\gamma)}
-    f_j(k)
-  \]
-  Consequently, congestion games admit a pure Nash equilibrium.
-\end{theorem}
-
-% HACK: check proof L4.18/23
-
-\subsection{Social welfare}
-
-\begin{definition}[Welfare function]
-  In a $N$-person game,
-  let $\gamma_i \in \Gamma_i$ be the strategy played by agent $i$.
-
-  Let $\gamma \in \Gamma :=
-  \Gamma_1 \times \Gamma_2 \times \dots \times \Gamma_N$
-  be the system-wide strategy.
-
-  A \textbf{welfare cost} $W : \Gamma \to \mathbb{R}$
-  is a measure of efficiency of each strategy for the
-  social cost of the population of agents.
+  cost $J_i(\gamma) = \sum_{j \in \gamma_i} f_j(\ell_j(\gamma))$ with
+  $f_j$ non-decreasing.
 \end{definition}
 
-Let the \textbf{individual cost} be $J_i(\gamma)$
-that player $i$ wants to minimize.
+\begin{theorem}[Rosenthal's Potential]
+  Every congestion game is potential with $P(\gamma) = \sum_{j=1}^M
+  \sum_{k=1}^{\ell_j(\gamma)} f_j(k)$.
+\end{theorem}
 
-\subsubsection{Price of Anarchy}
+\textbf{Proof}:
+Unilateral change by $i$ (add/remove resources) alters $P$
+exactly by the marginal $f_j(k)$ terms matching $\Delta J_i$.
+Thus, pure NE exist; BR converges.
 
-% TODO: definition anarchy
+\examBox{Exam example}{Braess paradox in routing
+(adding link worsens equilibrium travel time, e.g., from 64 to 70 min)}
+
+\subsection{Equilibrium Refinements and Examples}
+
+Multiple NE: Use Hasse diagram (partial order by Pareto dominance) or
+admissibility (no weakly dominated strategies). E.g., in renewable
+energy game (moral hazard with fine $f$):
+
+For $c/\epsilon < f < b-s$,
+two pure NE ((Reserve, No Shed), (No Reserve, Shed)); one mixed;
+Hasse ranks (R,NS) > (NR,S). Security strategies: Maximin (e.g.,
+Reserve for player 1).
+
+Identical-interest games (same $J_i = \phi \forall i$) are potential
+with $P = \phi$. Zero-sum potential games exist but are trivial or decomposable.
+
+Flight booking: Congestion on tickets; social optimum is NE
+(minimizes $P =$ total cost) but PoA $>1$ (counterexample with PoA $\geq 3.5$).
+
+\subsection{Social Welfare and Price of Anarchy}
+
+\begin{definition}[Welfare and PoA]
+  Welfare $W(\gamma) = \sum_i J_i(\gamma)$ (or max, etc.). PoA =
+  $\max_{\gamma \in \text{NE}} W(\gamma) / \min_{\gamma \in \Gamma}
+  W(\gamma)$ (measures inefficiency of worst NE vs optimum).
+\end{definition}
+
+In potential games, NE minimize $P$ locally, but $P \neq W$ implies
+PoA $>1$ (e.g., Braess: $\approx 1.09$; renewable: PoA=1 with proper
+fine aligning incentives).
+\examBox{Exam}
+{Compute PoA in routing or design mechanisms (fines/lanes) to minimize it}
 

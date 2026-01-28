@@ -2,81 +2,159 @@
 
 \subsection{Basic Definitions}
 
-\textbf{Game theory} is the study of mathematical models of conflict
-and cooperation
-between rational decision-makers.
+Game theory studies mathematical models of conflict and cooperation
+among rational decision-makers. A static game is characterized by:
 
-Several things are needed to characterize a game:
+\begin{itemize}
+  \item \textbf{Players}: Rational agents making decisions.
+  \item \textbf{Actions} (pure strategies): Finite sets of choices,
+    e.g., $\Gamma = \{\gamma_1, \dots, \gamma_n\}$ for Player 1,
+    $\Sigma = \{\sigma_1, \dots, \sigma_m\}$ for Player 2.
+  \item \textbf{Information structure}: Simultaneous moves with no
+    knowledge of opponents' choices.
+  \item \textbf{Outcomes/Payoffs}: Cost functions $J_1(\gamma_i,
+    \sigma_j) = a_{ij}$ (Player 1 minimizes) and $J_2(\gamma_i,
+    \sigma_j) = b_{ij}$ (Player 2 minimizes), represented by matrices
+    $A$ and $B$.
+\end{itemize}
 
-% TODO: Itemize
+Examples include wireless power control (interference minimization),
+Deer Hunt (coordination with multiple NE), self-driving cars at
+intersections (Chicken game variants), and inspection games (no pure NE).
 
-- The \textbf{players} are the agents that make decisions
+\subsubsection{Matrix Representation}
 
-- The \textbf{actions} available to each player at each decision point
+Games are often shown as bimatrix form:
 
-- The \textbf{information structure} specifies what each player knows
-before making each decision,
-in particular with respect to other players’ decisions
-
-- The \textbf{outcome} for each player, which depends on all players’ decisions
-
-% OPTIM: copy direct to proper format
-
-\subsubsection{Matrix representation}
-
-% AI: table
+\begin{center}
+  \begin{tabular}{c|c|c}
+    & $\sigma_1$ & $\sigma_2$ \\
+    \hline
+    $\gamma_1$ & $(a_{11}, b_{11})$ & $(a_{12}, b_{12})$ \\
+    \hline
+    $\gamma_2$ & $(a_{21}, b_{21})$ & $(a_{22}, b_{22})$ \\
+  \end{tabular}
+\end{center}
 
 \subsubsection{Nash Equilibrium}
 
-% AI: definition and short explanation
+A pure Nash Equilibrium (NE) is a profile
+$(\gamma^*, \sigma^*)$
+where no player benefits from unilateral deviation:
+\[
+  J_1(\gamma^*, \sigma^*) \leq J_1(\gamma_i, \sigma^*) \forall i
+\]
+and
+\[
+  J_2(\gamma^*, \sigma^*) \leq J_2(\gamma^*, \sigma_j) \forall j
+\]
+Rational players converge to NE as stable outcomes.
 
-\subsubsection{Dominated actions}
+\subsubsection{Dominated Actions}
 
-% AI:  short explanation
+Action $\gamma_k$ is strictly dominated by $\gamma_i$ if
+\[J_1(\gamma_i, \sigma_j) < J_1(\gamma_k, \sigma_j) \forall j\]
+Rational players avoid dominated actions.
 
-\subsubsection{Reduced game}
+\subsubsection{Reduced Game}
 
-% AI:  short explanation
+Iteratively remove dominated actions to simplify the game, revealing NE.
 
-\subsubsection{Security levels and policies}
+\subsubsection{Security Levels and Policies}
+
+Pure \textbf{security level} for Player 1:
+\[
+  \underline{J_1} = \min_i \max_j a_{ij}
+\]
+(worst-case guaranteed cost assuming adversarial opponent)
+
+\textbf{Security policy}
+\[
+  \arg\min_i \max_j a_{ij}
+\]
 
 \subsection{Multiple Nash Equilibria}
 
-% AI: example and short explanation
+Games may have multiple pure NE, not interchangeable
+
+\textbf{Partial order:}
+
+$(J_1', J_2') \prec (J_1, J_2)$
+if $J_1' \leq J_1$, $J_2' \leq J_2$
+(at least one strict)
 
 \subsubsection{Admissible Nash Equilibria}
 
-% AI: short explanation, including following expressions:
+A NE is admissible if not Pareto-dominated by another NE
+(better for one, not worse for other).
+Represent via poset: outcomes ordered by Pareto dominance.
 
-Poset
+\textbf{Hasse diagram}
+visualizes this poset as a graph where nodes are NE outcomes,
+edges indicate dominance (from worse to better),
+and minimal elements (with no incoming edges from below) are admissible,
+representing undominated equilibria that rational players might prefer.
 
-Hasse diagram
+\subsection{Mixed Strategies}
 
-Minimal element
+\textbf{Extend to probabilities}
+$y \in \Delta^n$ (simplex), $z \in \Delta^m$
 
-\subsection{Mixed strategies}
+\textbf{Expected costs}
+$J_1(y,z) = y^\top A z$, $J_2(y,z) = y^\top B z$.
+Distinguish from
+pure strategies (deterministic).
 
-% AI: example and short explanation
+\subsubsection{Security Levels}
 
-Careful!Refer to deterministic strategies as pure strategies!
+\textbf{Mixed security level}
+$\min_y \max_z y^\top A z = \min_y \max_j (A^\top y)_j$
 
-\subsubsection{Security levels}
+(linear program, computable efficiently).
 
-% AI: short explanation to each of the 3 topics
+\textbf{Mixed security strategy:}
+$\arg\min_y \max_z y^\top A z$
 
-Mixed security level
+(robust against worst-case mixed opponent, often lower than pure level)
 
-Mixed security strategy
-
-Computational complexity
+\textbf{Computational complexity}
+Polynomial-time solvable via LP, unlike some NE computations.
 
 \subsubsection{Mixed Nash Equilibrium}
 
-% AI: definition and short explanation
+Best responses $(y^*, z^*)$ where:
+\[
+  y^\top A z^* \geq (y^*)^\top A z^* \forall y
+\]
+\[
+  (y^*)^\top B z \geq (y^*)^\top B z^* \forall z
+\]
+Certify by checking pure deviations.
 
-% AI: how to compute? show equation
+\textbf{Completely mixed}
+all probabilities positive, satisfy indifference:
+\[
+  A z^* = p^* \mathbf{1} \quad (y^*)^\top B = q^* \mathbf{1}^\top
+\]
+\textbf{Non-completely mixed}
+exist without indifference
+
+e.g., 3x3 game with $y^* = z^* = (1/3,2/3,0)$
 
 \subsection{Nash Theorem}
 
-%AI: show proof of Existance of a Nash Equilibrium
+\begin{sstFullFrame}
+  \center\textcolor{white}{\textbf{
+      Every finite game has at least one mixed NE
+  }}
+\end{sstFullFrame}
+
+\textbf{Proof} via Kakutani's fixed-point theorem:
+The best-response correspondence
+$\beta: \Delta^n \times \Delta^m \to 2^{\Delta^n \times \Delta^m}$
+maps each strategy profile to the set of best responses
+(non-empty, convex, upper hemicontinuous due to continuity of
+expected payoffs and compactness of simplices)
+Kakutani guarantees a fixed point, which is a NE where each player's
+strategy is a best response to the other's.
 

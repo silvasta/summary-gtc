@@ -1,101 +1,57 @@
 \section{Auctions}
 
-- $N$ Players: bidders
-
-- Action: bid $x_i ≥ 0$
-
-\textbf{Outcome}
-
-- $w(x)$ the winner of the auction
-
-- $p(x)$ the price that the winner has to pay
-
-- $t_i$ the true value of the item for agent $i$
-
-The outcome (cost) for agent $i$ is:
-\[J_i =
+Auctions model strategic interactions where $N$ bidders (players)
+submit bids $x_i \geq 0$, with private true values $t_i$ for the
+item(s). The outcome is determined by winner selection $w(x)$ and
+payment $p(x)$, yielding utility for bidder $i$:
+\[
+  J_i(x) =
   \begin{cases}
-    p(x) − t_i & \text{if} i = w(x)\\
-    0& \text{otherwise}
+    t_i - p(x) & \text{if } i = w(x) \\
+    0 & \text{otherwise}.
   \end{cases}
 \]
+(Note: Utilities are typically defined as gains, so we maximize $U_i
+= -J_i$; lectures use cost minimization.)
 
-\subsection{First-price auctions}
+\subsection{First-Price Sealed-Bid Auction}
 
-In first-price auctions,
-the best-response bid depends
-on the bids of the other agents
-and your own true value.
+Winner: $w(x) = \arg\max_i x_i$; pays $p(x) = x_{w(x)}$.
 
-- Underbidding $x_i< t_i$
+- Overbidding ($x_i > t_i$) is strictly dominated by truthful bidding
+($x_i = t_i$): winning with overbid risks loss if $p > t_i$.
 
-- Truthful bidding $x_i= t_i$
+- Truthful bidding is not dominant: best response depends on others'
+bids; rational players underbid ($x_i < t_i$) to balance win
+probability and surplus.
 
-- Overbidding $x_i> t_i$
+- No dominant strategy equilibrium; Bayes-Nash equilibria require
+valuation distributions (e.g., symmetric independent private values
+yield shading: $x_i = \frac{N-1}{N} t_i$ for uniform [0,1]).
 
-\begin{proposition}[first-price auctions].\newline
-  \begin{itemize}
-    \item
-      any \textbf{overbidding} strategy is dominated by
-      \textbf{truthful bidding}
-    \item
-      \textbf{truthful bidding} is not a dominant strategy
-  \end{itemize}
-\end{proposition}
+Private information ($t_i$ unknown) leads to inefficiency; equilibria
+are not socially optimal.
 
-\subsection{The problem of private information}
+\subsection{Second-Price Sealed-Bid Auction (Vickrey)}
 
-Until now, we always assumed that the cost functions
-of the agents is known to the other agents.
-Auctions are an application of game theory
-in which this is not true, and we encode
-all the \textbf{private information} in the true value $t_i$.
+Winner: $w(x) = \arg\max_i x_i$; pays $p(x) = \max_{j \neq w(x)} x_j$.
 
-Lack of information leads to inefficiency!
+- \textbf{Dominant Strategy}: Truthful bidding ($x_i = t_i$) is weakly dominant.
 
-\subsection{Second-price auctions}
+\textbf{Proof}:
+Bid $x_i$ affects only win/loss, not payment (fixed at second-highest).
+Overbidding risks winning unprofitably,
+underbidding risks losing profitably.
+Thus, $U_i(t_i, x_{-i}) \geq U_i(x_i, x_{-i})$ for all $x_i, x_{-i}$
 
-\textbf{Winner selection}
-$w(x) = \argmax_i x_i$
+- \textbf{Incentive Compatibility (IC)}
+Truth-telling optimal regardless of others.
 
-(the bidder with the highest bid wins)
+- \textbf{Social Efficiency}: Allocates to highest $t_i$ if truthful.
 
-\textbf{Payment rule}
-$p(x) = \max_{i \neq w(x)} x_i$
+- Revenue: Equals second-highest $t_i$; not maximal but elicits truthfulness.
 
-(the winner pays the second-largest bid)
-
-\subsubsection{Dominant Strategy}
-
-In second-price auctions,
-a Nash equilibrium exists and
-\textbf{ can be computed by each agent
-based on their own private information.}
-
-\textbf{Truthful bidding}
-is a weakly dominant strategy
-in a second-price auction
-
-Intuition:
-your bid determines whether you win,
-not how much you pay.
-
-% AI: explain:
-- Incentive compatibility
-
-\subsubsection{Properties of second-price auction}
-
-% AI: explain:
-Social efficiency
-
-Does the auctioneer achieve the highest return?
-
-No (cost of eliciting truthful bidding...)
-
-\textbf{Incentive compatibility} and \textbf{social efficiency}
-often go together
-(the true value needs to be disclosed
-in order to be used for efficient allocation).
+- IC and efficiency often align: revealing $t_i$ enables optimal allocation.
 
 \subsection{Generalized auctions}
 
@@ -137,64 +93,84 @@ $N$-dimensional vector where $p_j(x)$
 is the payment requested from the player
 that placed the bid $j$
 
-\subsection{VCG auctions}
+\subsection{Vickrey-Clarke-Groves (VCG) Mechanism}
 
-% AI: function definition
-- VCG choice function
+Generalizes Vickrey for complex allocations.
 
-% AI: function definition
-- VCG payment function
+\subsubsection{VCG Choice}
 
-In order to compute each payment $p_j$,
-we need to evaluate the choice function twice:
-with and without the bid $j$
+$w^*(x) = \arg\max_{w: (w,m) \in C} \sum_j b_j
+w_j$ (maximizes reported social welfare).
 
-\subsubsection{Social utility}
+\subsubsection{VCG Payment (Clarke pivot)}
+\[
+  p_j(x) =
+  \max_{w: w_j=0} \sum_{k \neq j} b_k w_k
+  - \sum_k b_k w_k^*(x) - b_j w_j^*(x)
+\]
+\textbf{Interpretation}
+$p_j$ is the welfare loss imposed on others by
+including bid $j$ (externality).
 
-The social utility is the aggregate utility
-of all players and the auctioneer
-$$
-U(t,w) = \sum_i t_i w_i
-$$
+\textbf{Social Utility}: $U(t,w) = \sum_i t_i w_i$
 
-The social utility
-- depends on the true value of the goods
-according to the player that receives it
+(aggregate true value; payments cancel out).
 
-- does not depend on the entity of the payments
+If truthful ($b_j = t_j$), $w^*$ maximizes $U^*$.
 
-\textbf{If players bid truthfully} $b_j = t_j$
-then VCG choice function achieves
-maximal social utility $U^\star$
+\subsubsection{Properties}
 
-% AI: explain
-Interpretation of the VCG payment if agents bid truthfully:
+\textbf{Truthful Bidding Dominant}
+Weakly dominant strategy
 
-\subsubsection{Non-negative utility}
+Proof: payment independent of own bid; misreporting can only worsen
+allocation relative to truthful externality.
 
-% AI: proof
-When an agent bids truthfully, his utility is non-negative.
+\textbf{Non-Negative Utility (Individual Rationality)}
 
-\subsubsection{Dominant bidding strategy}
+Truthful bidding yields $U_i \geq 0$
 
-% AI: proof
-Truthful bidding is a weakly dominant strategy in a VCG auction.
+Proof: $U_i = U^*(t) - U^*_{-i}(t_{-i}) \geq 0$,
+as full optimum $\geq$ optimum without $i$
 
-\subsection{Open problem of auction design}
+\textbf{Social Efficiency}: Achieves max $U$ if truthful.
 
-We saw how to design an auction which guarantees
+\textbf{DSIC}: Dominant-strategy incentive compatible.
 
-- incentive compatibility / truthful bidding
+\examBox{Exam-Relevant Insights from Exercises}{
+  \textbf{Collusion Vulnerability}:
+  Shill bidding (e.g., splitting bids)
+  can manipulate outcomes, increasing payments
+  (e.g., single player posing as multiple to extract higher revenue in
+  reverse auctions)
 
-- optimal social efficiency
+  \textbf{Low/Non-Monotonic Revenue}: Can yield zero revenue despite
+  high values (e.g., two identical bidders cancel externalities);
+  revenue increases if bidders drop out or reduce bids, violating monotonicity.
 
-- non-negative payments
+  \textbf{Computational Challenges}: Solving $w^*$ often NP-hard
+  (e.g., combinatorial auctions ≈ knapsack).
+}
+\subsection{Open Problems in Auction Design}
 
-Unfortunately, it comes with drawbacks. For example
+VCG guarantees DSIC, efficiency, and non-negative utilities but suffers:
 
-- it yields low returns
+- Low revenue (prioritizes efficiency over seller profit).
 
-- it can be manipulated by colluding agents
+- Collusion (shills, bid coordination).
 
-- it is computationally challenging to solve.
+- Computational intractability for large $C$.
+
+- Alternatives trade efficiency for revenue (e.g., Myerson optimal
+auctions maximize expected revenue under Bayesian priors).
+
+\examBox{These align with exam themes} {
+  - equilibria (Nash vs. dominant)
+
+  - strategies (truthful vs. strategic)
+
+  - repeated/repeated-like manipulations
+
+  - efficiency in strategic settings
+}
 

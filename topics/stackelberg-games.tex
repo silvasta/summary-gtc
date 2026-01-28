@@ -1,116 +1,150 @@
 \section{Stackelberg games}
 
+Stackelberg games model hierarchical decision-making where the
+\textbf{leader} (Player 1) commits to a strategy first, and the
+\textbf{follower} (Player 2) observes and best-responds.
+
+Let $\mathcal{Y}$ and $\Sigma$ be the strategy spaces (pure or
+mixed), and $J_i(y, \sigma)$ the cost for Player $i$.
+
 \subsection{Definition of Stackelberg games}
 
-% NOTE: example page 1
+\subsection{Definitions and Core Concepts}
 
-\begin{itemize}
-  \item
-    $\Gamma$: pure-strategy space of the \textbf{leader} (Player 1)
-  \item
-    $\Sigma$: pure-strategy space of the \textbf{follower} (Player 2)
-\end{itemize}
+\textbf{Rational Reaction Set}
+For leader strategy $y \in \mathcal{Y}$
+and $\forall \xi \in \Sigma$
+the follower's rational reaction set is:
+\[
+  R(y) = \arg\min_{\sigma \in \Sigma} J_2(y, \sigma) = \{\sigma \in
+    \Sigma \mid J_2(y, \sigma) \leq J_2(y, \xi)
+  \]
 
-\begin{sstTitleBox}
-  {Rational reaction set}
-  % TODO: Rational reaction set
-\end{sstTitleBox}
+  \begin{sstTitleBox}{Stackelberg Equilibrium}
+    \begin{sstOnlyFrame}
+      A pair $(\tilde{y}, \tilde{\sigma}(\cdot))$ with $\tilde{y} \in
+      \mathcal{Y}$ and $\tilde{\sigma}: \mathcal{Y} \to \Sigma$ is a
+      Stackelberg equilibrium if:
+      \begin{itemize}
+        \item Leader optimizes: $\tilde{y} \in \arg\min_{y \in
+          \mathcal{Y}} J_1(y, \tilde{\sigma}(y))$.
+        \item Follower best-responds: $\tilde{\sigma}(y) \in R(y)$ for
+          all $y \in \mathcal{Y}$.
+      \end{itemize}
+      In zero-sum games, this coincides with the minimax (security) strategy.
+    \end{sstOnlyFrame}
+  \end{sstTitleBox}
 
-\begin{sstTitleBox}
-  {Stackelberg equilibrium}
-  \begin{sstOnlyFrame}
-    A pair of strategies $\tilde{y} \in \mathcal{Y}$
-    and $\tilde{\sigma}(y) : \mathcal{Y} \to \Sigma$
-    is a Stackelberg Equilibrium if
-    \begin{itemize}
-      \item Player 1 plays the best response to $\tilde{\sigma}(y)$:
-        % TODO: finish with formulas
-      \item Player 2 plays the best response to $y$:
-    \end{itemize}
-  \end{sstOnlyFrame}
-\end{sstTitleBox}
+  Applications include oligopoly models
+  (e.g., Cournot quantity competition where leader gains advantage by
+    committing first, yielding higher profit than simultaneous Nash;
+    Bertrand price competition where leader may face disadvantage due
+  to aggressive follower response).
 
-Applications
+  \subsection{Stackelberg Zero-Sum Games}
 
-\subsection{Stackelberg zero-sum games}
+  In zero-sum games ($J_2 = -J_1$),
+  Stackelberg equilibria equal mixed Nash equilibria,
+  with value
+  \[
+    v = \min_y \max_\sigma J_1(y, \sigma) = \max_\sigma \min_y J_1(y, \sigma)
+  \]
+  No commitment advantage/disadvantage.
 
-Stackelberg Equilibrium in zero-sum games
+  \subsubsection{Mixed Security Strategy}
 
-% TODO: Stackelberg EQ zero-sum
+  Leader's mixed security strategy:
+  \[
+    \tilde{y} \in
+    \arg\min_{y \in \mathcal{Y}} \max_{\sigma \in \Sigma} J_1(y, \sigma)
+  \]
 
-\subsubsection{Security strategies}
+  \subsubsection{Pure Security Strategy}
 
-\begin{sstTitleBox}
-  {Mixed security strategy}
-\end{sstTitleBox}
-% TODO: security strategies Stackelberg
-\begin{sstTitleBox}
-  {Pure security strategy}
-\end{sstTitleBox}
+  Restrict to pure strategies:
+  \[
+    \tilde{y} \in \arg\min_{y \in Y} \max_{\sigma \in S} J_1(y, \sigma)
+  \]
+  often worse than mixed.
 
-\subsubsection{Stackelberg vs Nash}
+  \subsubsection{Stackelberg vs. Nash}
 
-In zero-sum games,
-mixed Stackelberg equilibria and Nash equilibria coincide.
-% NOTE: extend maybe?
+  Mixed Stackelberg and Nash coincide in zero-sum games.\\
+  Pure Stackelberg may differ and be suboptimal.
 
-\subsection{Stackelberg non-zero-sum games}
+  \subsection{Stackelberg Non-Zero-Sum Games}
 
-% TODO: Stackelberg, Highest, Lowest
+  \begin{sstTitleBox}{Highest Leader Cost (Pessimistic)}
+    \begin{sstOnlyFrame}
+      \[H = \inf_y \max_{\sigma \in R(y)} J_1(y, \sigma)\]
+      always achievable in equilibrium.
+    \end{sstOnlyFrame}
+    \begin{sstOnlyFrame}
+      \begin{theorem}[Upper Bound on Stackelberg Cost]
+        No equilibrium achieves $J_1 < H$.
+      \end{theorem}
+    \end{sstOnlyFrame}
+  \end{sstTitleBox}
 
-\begin{sstTitleBox}
-  {Highest leader cost}
-\end{sstTitleBox}
+  \begin{theorem}[Nash vs. Highest Leader Cost]
+    Every Nash equilibrium $(y^*, \sigma^*)$ satisfies $J_1(y^*,
+    \sigma^*) \geq H$; Stackelberg is never worse for leader than any NE.
+  \end{theorem}
 
-\begin{theorem}[Upper bound on Stackelberg cost]
+  \begin{sstTitleBox}{Lowest Leader Cost (Optimistic)}
+    \begin{sstOnlyFrame}
+      \[
+        L = \min_y \min_{\sigma \in R(y)} J_1(y, \sigma)
+      \]
+      generically $L = H$ for random payoffs.
+    \end{sstOnlyFrame}
+    \begin{sstOnlyFrame}
+      \begin{theorem}[Nash vs. Lowest Leader Cost]
+        Every Nash equilibrium satisfies $J_1(y^*, \sigma^*) \geq L$.
+      \end{theorem}
+    \end{sstOnlyFrame}
+  \end{sstTitleBox}
 
-\end{theorem}
+  Pure-strategy Stackelberg: $H_\text{pure}$ can exceed Nash costs if
+  rational reaction sets are non-singleton.
 
-\begin{theorem}[Nash vs Highest Leader Cost]
+  \subsubsection{Computation of Stackelberg Equilibrium}
 
-\end{theorem}
+  For finite games, use divide-and-conquer: For each pure follower
+  strategy $\sigma_j$, solve LP
+  \[
+    \min_y y^\top A_j \quad \text{s.t.} \quad y^\top B_k \geq y^\top
+    B_j \ \forall k \neq j, \ y \in \Delta^m,
+  \]
+  where $A_j, B_k$ are payoff vectors. Select minimum $J_1$ among
+  solutions. Easier than Nash computation.
 
-\begin{sstTitleBox}
-  {Lowest leader cost}
-\end{sstTitleBox}
+  \subsection{Security Games}
 
-\begin{theorem}[Nash vs Lowest Leader Cost]
+  Defender (leader) randomizes coverage over targets; attacker
+  (follower) observes and attacks optimally. Coverage vector $c =
+  X^\top y$, where $X$ is target-schedule matrix.
 
-\end{theorem}
+  \begin{definition}[Coverage Vector]
+    $c_t = \sum_s x_{s,t} y_s$, probability target $t$ is covered.
+  \end{definition}
 
-Generic Stackelberg games
+  Stackelberg solution via LP; provides commitment advantage over Nash.
 
-\subsubsection{Computation of the Stackelberg equilibrium}
+  \subsubsection{Stackelberg Solution}
+  Minimize expected damage via LP over mixed $y$, assuming attacker
+  best-responds.
 
-\begin{sstTitleBox}
-  {Divide-and-conquer algorithm}
-\end{sstTitleBox}
+  \subsubsection{Nash Equilibria}
+  Equivalent to NE of auxiliary zero-sum game
+  (set defender payoff = -attacker payoff).
+  All NE attacker-equivalent.
+  If feasible coverages downward-closed
+  ($\gamma' \leq \gamma \in \Gamma \implies \gamma' \in \Gamma$),
+  every Stackelberg strategy is Nash.
 
-\begin{sstTitleBox}
-  {Linear programming}
-\end{sstTitleBox}
-
-In non-zero-sum games with mixed strategies,
-computing Stackelberg Equilibria is
-much easier than computing Nash Equilibria!
-
-\subsection{Security games}
-
-% TODO: security games
-Randomized defender stategy in security games
-
-\begin{definition}[Coverage vector]
-\end{definition}
-
-Randomized attacker stategy in security games
-
-\subsubsection{Stackelberg solution of a security game}
-
-\subsubsection{Nash equilibria of security games}
-
-Auxiliary zero-sum security game
-
-Interpretation
-
-Stackelberg equilibria are Nash equilibria
+  \examBox{Exam Relevance}
+  {Focus on equilibrium computation (LP), zero/non-zero-sum
+    differences, leader advantage (e.g., Cournot/Bertrand), security
+  games (auxiliary zero-sum, downward-closed sets)}
 

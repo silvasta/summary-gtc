@@ -1,209 +1,151 @@
 \section{Dynamic games}
 
-\subsection{Escape game}
+\subsection{Escape Game Example}
 
-Zeichnung Baum
+The escape game is a zero-sum feedback game where Alice tries to
+reach the safe zone over $K$ stages without being intercepted by Eve.
+Alice moves up, middle, or down; Eve blocks one row. The game tree
+grows exponentially (e.g., for 3 actions, order of $1 + 3 + 9 + \dots
++ 3^{K-1}$ nodes), requiring backward induction on the full tree,
+which is computationally intractable for large $K$ (e.g., $5 \times
+10^9$ LPs for $K=20$).
 
-% Template for a TikZ tree diagram.
-% - Root at the top.
-% - First level: 3 children (nodes).
-% - Second level: Each of the 3 first-level nodes has 3 children by default.
-% - To modify: Some nodes have only 2 children (comment out one
-% 'child' line per parent).
-% - Easily extend: Add more 'child { ... }' blocks for deeper levels
-% or adjust labels.
-% - Styling: Customize node shapes, colors, edge styles below.
-% - Levels: This example has 2 levels below root (total depth 3). Add
-% nesting for more.
-% - Positioning: Uses 'trees' library for automatic layout; adjust
-% 'level distance' and 'sibling distance' for spacing.
+% \begin{center}
+%   \begin{tikzpicture}[
+%
+% % WARN: topics/linear-quadratic-games.tex|33 error| Package pgfkeys
+% Error: I do not know the key '/tikz/middle' and I am going to
+% ignore it. Perhaps you misspelled it.
+%       level distance=1.5cm,
+%       sibling distance=2cm,
+%       edge from parent/.style={draw, -latex},
+%       every node/.style={align=center, draw, minimum size=1cm}
+%     ]
+%     \node {Start (C)}
+%     child { node {U}
+%       child { node {U} edge from parent node[left] {U} }
+%       child { node {C} edge from parent node[right] {C} }
+%     }
+%     child { node {C}
+%       child { node {U} edge from parent node[left] {U} }
+%       child { node {C} edge from parent node[middle] {C} }
+%       child { node {D} edge from parent node[right] {D} }
+%     }
+%     child { node {D}
+%       child { node {C} edge from parent node[left] {C} }
+%       child { node {D} edge from parent node[right] {D} }
+%     };
+%   \end{tikzpicture}
+% \end{center}
 
-% TODO: tik tree to separate file, modify
-\begin{center}
-  \begin{tikzpicture}[
-      % Global styling for the tree
-      tree/.style={ % Style for edges
-        -Latex, % Arrow style (from arrows.meta)
-        thick,
-        draw=gray,
-      },
-      level/.style={ % Spacing between levels
-        level distance=1.5cm, % Vertical distance between levels
-        % (adjust as needed)
-        sibling distance=2cm, % Horizontal distance between siblings
-        % (adjust for wider/narrower tree)
-      },
-      root node/.style={ % Style for root node
-        draw=blue, % Border color
-        fill=blue!20, % Fill color
-        circle, % Shape (circle; change to rectangle, etc.)
-        minimum size=1cm, % Size
-        font=\bfseries, % Font
-      },
-      level-1/.style={ % Style for first-level nodes
-        draw=green,
-        fill=green!20,
-        rectangle,
-        minimum width=1cm,
-        minimum height=0.8cm,
-        font=\small\bfseries,
-      },
-      level-2/.style={ % Style for leaf/second-level nodes
-        draw=red,
-        fill=red!20,
-        ellipse, % Shape for leaves
-        minimum width=1cm,
-        minimum height=0.6cm,
-        % sibling distance=1cm,
-        font=\small,
-      },
-      every node/.style={ % Default for all nodes
-        align=center, % Center text
-      },
-    ]
+\subsubsection{Taming Complexity in Dynamic Games}
 
-    % The tree structure starts here
-    \node[root node] (root) {Root}
-    % \\(Level 0)}
-    % First level: 3 children (adjust sibling distance above if needed)
-    child { node[level-1] (n1) {up}
-      % Second level under Node 1.1: 3 children (leaves)
-      child { node[level-2] {middle} }
-      child { node[level-2] {down} }
-    }
-    child { node[level-1] (n2) {middle}
-      % Second level under Node 1.2: Example with ONLY 2 children
-      % (comment out one 'child' to reduce)
-      child { node[level-2] {up} }
-      child { node[level-2] {middle} }
-      child { node[level-2] {down} }
-      % to make it 2 children
-    }
-    child { node[level-1] (n3) {down}
-      % Second level under Node 1.3: 3 children (full)
-      child { node[level-2] {up} }
-      child { node[level-2] {middle} }
-    };
+Model as a state-based \emph{loop model} instead of tree:
 
-    % Optional: Add backgrounds or decorations (using backgrounds
-    % library from your cls)
-    % \begin{scope}[on background layer]
-    %     \fill[blue!5] (root) ++(0,-0.5) rectangle ($(n3 |- root) +
-    % (1,0.5)$); % Faint background box
-    % \end{scope}
+states $X = \{U, C, D, L\}$ (up, center, down, lost)
 
-  \end{tikzpicture}
-\end{center}
+actions $U(x_k)$ and $V(x_k)$ depend on state.
 
-Multi-stage game with
+Dynamics:
+$x_{k+1} = f(x_k, u_k, v_k) = L$ if $u_k = v_k$ or $x_k = L$,
+else $x_{k+1} = u_k$.
 
-- finite actions
+Stage cost $g_k = 0$ for $k < K$, $g_K = +1$ if lost (Eve wins), $-1$
+if safe (Alice wins).
 
-- large number of stages (20)
+Backward induction on states reduces to $4 \times K$ LPs (scalable).
+Value function $V_k(x_k)$ computed recursively: $V_K(x_K)$ from
+last-stage NE, then
+\[
+  V_{k-1}(x_{k-1}) = \min_\gamma \max_\sigma [g_{k-1} + V_k(f(\cdot))]
+\]
 
-Order of: $1 + 9 + 81 + . . . + 320$ linear programs
+For infinite $K$, $V_1(C) \to 0$ (Alice's escape probability
+approaches 0.5 numerically, as Eve can always adapt).
 
-\subsubsection{Taming the complexity of dynamic games}
+This state-based approach is preferable to tree induction for large
+$K$ or infinite horizons, enabling efficient computation in control
+applications.
 
-How can you solve this game for 20 stages?
+\subsubsection{From Tree to Loop Model}
 
-Key idea: In every “position”, the probability of escaping (and the
-optimal strategy) do not depend on the past decisions.
+Tree models capture full history,
+loop models abstract to Markov states evolving via
+$x_{k+1} = f(x_k, u_k, v_k, \dots)$,
+with outcomes $g_k(x_k, u_k, v_k, \dots)$.
+Equivalent for feedback games, allowing control interpretations
+(strategies as feedback laws).
 
-We can perform backward induction on the “positions” (states!) rather
-than on the game tree.
+\subsection{Non-Zero-Sum Dynamic Games}
 
-3 × 20 linear programs instead of 5 × 109
+In multi-player settings (e.g., three-truck platoon),\\
+players minimize individual costs:
+\[
+  J_i = \sum_k g_{i,k}(x_k, u_{1,k}, \dots, u_{n,k}) + g_{i,K}(x_K)
+\]
+Subgame-perfect Nash Equilibrium (SPNE): strategies form NE in every subgame.
 
-With more actions available at each stage, the speed up is even larger!
+SPNE corresponds to optimal feedback laws in control theory.
 
-We will adapt this idea to dynamic games with infinite action spaces.
+\subsubsection{Backward Induction}
 
-\subsubsection{From tree model to loop model}
+For finite-horizon games, compute SPNE via backward induction on states:
 
-A1
-state that evolves
+\textbf{At stage} $K$ -
+Solve static game for each $x_K$:\\
+find NE strategies
+$\gamma_K^*(x_K)$, value $V_K(x_K) = g_K + g_\text{terminal}$.
 
-A2
-outcome
+\textbf{Recursively}
+at stage $k$ - For each $x_k$:\\
+Solve static game with payoff
+$g_k(x_k, u_k) + V_{k+1}(f(x_k, u_k))$,
+yielding $\gamma_k^*(x_k)$, $V_k(x_k)$.
 
-\subsubsection{Loop model}
+\examBox{Relevant for exams:}
+{Ensures subgame perfection; extends to stochastic
+games (with probabilities in dynamics)}
 
-\subsection{Non-zero sum dynamic games}
+\subsubsection{One-Player Case: Dynamic Programming}
 
-A three-truck platoon
+Reduces to Bellman's equation:
+\[
+  V_k(x_k) = \min_{u_k} [g_k(x_k, u_k) + V_{k+1}(f(x_k, u_k))]
+\]
+optimal policy $\mu_k^*(x_k)$.
 
-Loop models are equivalent to tree models.
-Therefore all results and definitions
-(NE, pure strategies, mixed strategies)
-extend here, and have a \textit{control} interpretation.
+\subsubsection{Two-Player Linear-Quadratic (LQ) Games}
 
-\begin{sstTitleBox}
-  {Subgame-perfect Nash Equilibrium}
-  \begin{sstOnlyFrame}
-    A strategy is a \textbf{subgame perfect} equilibrium
-    if it represents a NE of every subgame of the original game.
-  \end{sstOnlyFrame}
-\end{sstTitleBox}
+System: $x_{k+1} = A x_k + B_1 u_k + B_2 v_k$.
 
-Subgame-perfect NE strategies
-(that is, feedback laws)
-are what in control we define as \textbf{optimal feedback laws}.
+Costs (non-zero-sum):
 
-\subsection{Backward induction}
+$J_1 = \sum_{k=0}^{K-1} (x_k^T Q_1 x_k + u_k^T R_1 u_k + v_k^T
+S_1 v_k) + x_K^T P_1 x_K$,
 
-Example pyramide
+$J_2 = \sum_{k=0}^{K-1} (x_k^T Q_2 x_k + v_k^T R_2 v_k + u_k^T S_2
+u_k) + x_K^T P_2 x_K$
 
-\subsubsection{One-player case}
+Backward induction yields affine feedback:
 
-In the case of a one-player game, this reduces to Dynamic Programming.
+Assume $V_{1,k}(x) = x^T P_{1,k} x + q_{1,k}^T x + r_{1,k}$, \\
+similarly for $V_{2,k}$.
 
-- Bellman
+At each step, solve for NE:
 
-\subsubsection{Two players: Linear-quadratic case}
+$\hat{u}_k = - (R_1 + B_1^T P_{1,k+1} B_1)^{-1} (B_1^T P_{1,k+1} A
+x_k + B_1^T P_{1,k+1} B_2 v_k + \dots)$
+(coupled)
 
-\begin{sstTitleBox}{
-    Dynamic game
-  }
-  \begin{sstOnlyFrame}
-    There exists a \textbf{state} that evolves at each stage
-    $$x$$
-    The outcome of the game can be expressed as
-    $$\sum$$
-  \end{sstOnlyFrame}
-\end{sstTitleBox}
+Results in Riccati-like equations for $P_{i,k}$, enabling unique NE
+under positive-definiteness assumptions (convex costs).
 
-\subsubsection{Two player LQR}
+\examBox{Exam relevance}
+{Mirrors uniqueness in convex games; dynamics like projected
+gradient; backward induction in stochastic/epidemic games}
 
-EXAMPLES
-
-$$
-x_{k+1} = A x_k + B_1 u_k + B_2 v_k
-$$
-
-Non-zero sum game setup
-
-$$
-J_1
-$$
-
-$$
-J_2
-$$
-
-DERIVATION
-
-$$
-\hat{u}_k(v_k) =
-$$
-$$
-\hat{v}_k(u_k) =
-$$
-
-NE feedback
-
-$H_1,H_2$ from stacking expressions
-
-Finally,
-$J_1^\star = ... = x_k^T P_{1,k} x_k$
+\examBox{Exercises Insights}
+{Exercises reinforce backward induction in escape game: Compute mixed
+  NE numerically, implement in MATLAB, analyze convergence. Highlights
+scalability of state-based methods over tree-based for dynamic/repeated games. }
 

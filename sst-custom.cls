@@ -267,6 +267,13 @@ arrows.meta }
   boxrule=.25mm,
 }
 
+\newcommand{\examBox[3]}{
+  \begin{sstTitleBox}[BrickRed]{#2}
+    \begin{sstOnlyFrame}[BrickRed]
+      #3
+    \end{sstOnlyFrame}
+  \end{sstTitleBox}
+}
 % --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 % Coding Boxes
 % --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
